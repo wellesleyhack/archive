@@ -17,6 +17,11 @@ const anim = {
 }
 
 export default function index({menuIsActive}) {
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
     /**
      * Shuffles array in place (Fisher–Yates shuffle).
@@ -34,6 +39,7 @@ export default function index({menuIsActive}) {
     }
 
     const getBlocks = (indexOfColum) => {
+        if (typeof window === 'undefined') return null;
         const { innerWidth, innerHeight } = window;
         const blockSize = innerWidth * 0.05;
         const nbOfBlocks = Math.ceil(innerHeight / blockSize);
@@ -54,7 +60,7 @@ export default function index({menuIsActive}) {
 
     return (
         <div className={styles.pixelBackground}>
-            {
+            {isClient &&
                 [...Array(20)].map( (_, index) => {
                     return <div key={index} className={styles.column}>
                         {
